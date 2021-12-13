@@ -4,9 +4,11 @@ class Oystercard
   def initialize
     @balance = 0
   end
-  def top_up(arg)
-    raise "Error: £#{BALANCE_LIMIT} limit reached" if balance + arg > BALANCE_LIMIT
-    @balance += arg
+  def top_up(amount)
+    raise "Error: £#{BALANCE_LIMIT} limit reached" if balance + amount > BALANCE_LIMIT
+    @balance += amount
   end
-
+  def deduct(amount)
+    @balance -= amount
+  end
 end
