@@ -13,7 +13,7 @@ context Oystercard do
     end
     it 'raises error message if limit exceeded' do
       limit = Oystercard::BALANCE_LIMIT
-      subject.top_up(limit)
+      subject.top_up(limit - subject.balance)
       message = "Error: £#{limit} limit reached"
       expect { subject.top_up 10 }.to raise_error message
     end
@@ -30,13 +30,19 @@ context Oystercard do
     subject.touch_in
     expect(subject.in_journey?).to eq true
    end
+    it 'should raise error if below minimum limit' do
+      balance = subject.balance
+      subject.deduct(balance)
+      message = 'You haven\'t got enough money'
+      expect {subject.touch_in}.to raise_error message
+    end
   end
   describe '#touch_out' do
-  it 'should change the status of in_journey to false' do
-    subject.touch_in
-    subject.touch_out
-    expect(subject.in_journey?).to eq false
-  end
+    it 'should change the status of in_journey to false' do
+      subject.touch_in
+      subject.touch_out
+      expect(subject.in_journey?).to eq false
+    end
   end
 
 end
