@@ -33,6 +33,7 @@ context Oystercard do
   end
   describe '#touch_out' do
   it 'should change the status of in_journey to false' do
+    subject.touch_in
     subject.touch_out
     expect(subject.in_journey?).to eq false
   end
