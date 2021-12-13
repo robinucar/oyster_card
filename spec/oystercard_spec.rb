@@ -25,4 +25,17 @@ context Oystercard do
       expect { subject.deduct 1 }.to change {subject.balance}.by -1
     end
   end
+  describe '#touch_in' do
+   it 'should change the status of in_journey to true' do
+    subject.touch_in
+    expect(subject.in_journey?).to eq true
+   end
+  end
+  describe '#touch_out' do
+  it 'should change the status of in_journey to false' do
+    subject.touch_out
+    expect(subject.in_journey?).to eq false
+  end
+  end
+
 end
