@@ -1,6 +1,7 @@
 require 'oystercard'
 
 context Oystercard do
+  let(:station){double(:station)}
   it 'should respond to #initialize' do
     oystercard = Oystercard.new
     expect(oystercard).to respond_to {'initialize'}
@@ -27,19 +28,22 @@ context Oystercard do
   end
   describe '#touch_in' do
    it 'should change the status of in_journey to true' do
-    subject.touch_in
+    subject.touch_in(station)
     expect(subject.in_journey?).to eq true
    end
     it 'should raise error if below minimum limit' do
       balance = subject.balance
       subject.deduct(balance)
       message = 'You haven\'t got enough money'
-      expect {subject.touch_in}.to raise_error message
+      expect {subject.touch_in(station)}.to raise_error message
+    end
+    it 'should store the entry station' do
+      expect(subject.touch_in(station)).to eq station
     end
   end
   describe '#touch_out' do
     it 'should change the status of in_journey to false' do
-      subject.touch_in
+      subject.touch_in(station)
       subject.touch_out
       expect(subject.in_journey?).to eq false
     end
@@ -48,5 +52,4 @@ context Oystercard do
       expect {subject.touch_out}.to change{subject.balance}.by(-fare)
     end
   end
-
 end
