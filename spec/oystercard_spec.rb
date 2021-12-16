@@ -68,4 +68,17 @@ context Oystercard do
     subject.touch_out(:end_station)
     expect(subject.journeys).to include journey
   end
+  it 'touch_in and touc_out store 1 journey' do
+    subject.touch_in(:start_station)
+    subject.touch_out(:end_station)
+    expect(subject.journeys.length).to eq 1
+  end
+=begin
+  it 'should clear journey' do
+    subject.journey = journey
+    subject.clear_journey
+    expect(subject.journey[0]).to be_nil
+    expect(subject.journey[1]).to be_nil
+  end
+=end
 end
