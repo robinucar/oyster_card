@@ -1,5 +1,5 @@
 class Journey
-  attr_reader :complete
+  attr_reader :complete, :stations
   def initialize
     @complete = false #it is false by default
     @stations = {enter: nil, exit: nil}

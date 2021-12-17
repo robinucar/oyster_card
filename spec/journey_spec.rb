@@ -9,4 +9,12 @@ describe Journey do
       expect(journey.complete).to eq false
     end
   end
+  describe 'start'do
+    before(:each) do
+      journey.start('Bank')
+    end
+    it 'store the entry station' do
+      expect(journey.stations).to eq({enter: 'Bank', exit: nil})
+    end
+  end
 end
