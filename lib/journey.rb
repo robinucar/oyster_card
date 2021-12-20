@@ -1,6 +1,7 @@
 class Journey
   attr_reader :complete, :stations, :journeys_list
   MINIMUM_FARE = 2
+  PENALTY_FARE = 6
   def initialize
     @complete = false #it is false by default
     @stations = {enter: nil, exit: nil}
@@ -24,7 +25,7 @@ class Journey
     
   end
   def fare
-    @complete ? MINIMUM_FARE : nil
+    @complete ? MINIMUM_FARE : PENALTY_FARE
   end
   def clear_journey
     @stations[:enter] = nil

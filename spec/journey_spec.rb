@@ -38,5 +38,10 @@ describe Journey do
     journey.end('Finsburry Park')
     expect(journey.fare).to eq Journey::MINIMUM_FARE
    end
+   it 'should return the panelty fare if there is not exit station' do
+    journey.start('Bank')
+    journey.start('Manor House')
+    expect(journey.fare).to eq Journey::PENALTY_FARE
+   end
   end
 end
