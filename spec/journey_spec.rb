@@ -32,4 +32,11 @@ describe Journey do
       expect(journey.stations).to eq({enter: nil, exit: nil})
     end
   end
+  describe '#fare' do
+   it 'should return the fare after touch in and touch out' do
+    journey.start('Bank')
+    journey.end('Finsburry Park')
+    expect(journey.fare).to eq Journey::MINIMUM_FARE
+   end
+  end
 end
