@@ -23,11 +23,13 @@ describe Journey do
       journey.start('Bank')
       journey.end('Finsburry Park')
     end
-    it 'store the exit station' do
-      expect(journey.stations).to eq({enter: 'Bank', exit: 'Finsburry Park'})
-    end
     it 'store completed journey' do
-      expect(journey.store_journey).to eq([{enter: 'Bank', exit: 'Finsburry Park'}])
+      expect(journey.journeys_list).to eq([{enter: 'Bank', exit: 'Finsburry Park'}])
     end
-  end 
+  end
+  describe '#clear_journey' do
+    it 'should clear enter and exit stations' do
+      expect(journey.stations).to eq({enter: nil, exit: nil})
+    end
+  end
 end

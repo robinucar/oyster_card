@@ -12,11 +12,18 @@ class Journey
   def end(station)
     @stations[:exit] = station
     @complete = true
+    store_journey
+    clear_journey
   end
   def complete?
     @complete
   end
   def store_journey
-    @journeys_list << @stations
+    @journeys_list << @stations.dup
+    
+  end
+  def clear_journey
+    @stations[:enter] = nil
+    @stations[:exit] = nil
   end
 end
