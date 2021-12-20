@@ -1,8 +1,6 @@
 require 'journeylog.rb'
 describe JourneyLog do
   subject(:journey_log) {described_class.new}
-  let(:station) { double :station }
-
   describe '#start' do
     before(:each) do
       journey_log.start('Bank')

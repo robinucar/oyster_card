@@ -1,9 +1,12 @@
 require 'oystercard'
+require 'journey'
 
 context Oystercard do
+  subject(:oystercard) { described_class.new }
+  journey = Journey.new
   let(:start_station){double :start_station}
   let(:end_station){double :end_station }
-  let(:journey){ { :entry_station => :start_station, :exit_station => :end_station } }
+  
   it 'should respond to #initialize' do
     oystercard = Oystercard.new
     expect(oystercard).to respond_to {'initialize'}
@@ -32,53 +35,24 @@ context Oystercard do
   describe '#touch_in' do
    it 'should change the status of in_journey to true' do
     subject.touch_in(:start_station)
-    expect(subject.in_journey?).to eq true
+    expect(subject).to be_in_journey
    end
     it 'should raise error if below minimum limit' do
       subject.balance = Oystercard::MINIMUM_LIMIT - 1
       message = 'You haven\'t got enough money'
       expect {subject.touch_in(:start_station)}.to raise_error message
     end
-    it 'should store the entry station' do
-      subject.touch_in(:start_station)
-      expect(subject.journey[:entry_station]).to eq :start_station
-    end
+
   end
   describe '#touch_out' do
     it 'should change the status of in_journey to false' do
       subject.touch_in(:start_station)
       subject.touch_out(:end_station)
-      expect(subject.in_journey?).to eq false
+      expect(subject).to_not be_in_journey
     end
     it 'should deduct fare from balance' do
-      fare = Oystercard::MINIMUM_FARE
-      expect {subject.touch_out(:end_station)}.to change{subject.balance}.by(-fare)
+      expect {subject.touch_out(:end_station)}.to change{subject.balance}.by(-journey.fare)
     end
-    it 'should store the exit station' do
-      subject.touch_in(:start_station)
-      subject.touch_out(:end_station)
-      expect(subject.journeys[0][:exit_station]).to eq :end_station
-    end
+
   end
-  it 'has empty journey history as default' do
-    expect(subject.journeys).to be_empty
-  end
-  it 'stores all journeys' do
-    subject.touch_in(:start_station)
-    subject.touch_out(:end_station)
-    expect(subject.journeys).to include journey
-  end
-  it 'touch_in and touc_out store 1 journey' do
-    subject.touch_in(:start_station)
-    subject.touch_out(:end_station)
-    expect(subject.journeys.length).to eq 1
-  end
-=begin
-  it 'should clear journey' do
-    subject.journey = journey
-    subject.clear_journey
-    expect(subject.journey[0]).to be_nil
-    expect(subject.journey[1]).to be_nil
-  end
-=end
 end
