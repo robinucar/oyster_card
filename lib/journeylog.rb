@@ -5,7 +5,7 @@ class JourneyLog
     @journeys_list = []
   end
   def start(station)
-    @clear_journey[:enter] = station
+    @current_journey[:enter] = station
   end
   def end(station)
     @current_journey[:exit] = station
@@ -14,10 +14,10 @@ class JourneyLog
   end
 
   def save_journey
-    @journeys_list << @current_journey
+    @journeys_list << @current_journey.dup
   end
 end
 def clear_journey
-  @stations[:enter] = nil
-  @stations[:exit] = nil
+  @current_journey[:enter] = nil
+  @current_journey[:exit] = nil
 end
